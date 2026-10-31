@@ -117,6 +117,8 @@ Each `runTask` is a brand-new Agent with no internal tool/thinking memory (recen
 
 `commitIfChanged(msg)` iterates each first-level subdir of `DATA_ROOT` and only does `add + commit` for those that are **independent git repos** (have `.git`) and have non-empty `git status --porcelain`. Commit message format: `agent: <user message truncated to first 60 chars>`. When `GIT_PUSH=1`, additionally push (failure is only a warning, not a blocker).
 
+**Single-repo fallback**: when `DATA_ROOT` itself is a git repo and none of its first-level subdirs is, the root repo is committed instead, scoped to the task's selected projects (`git add -A -- <projects>`); a project name that is not a real first-level dir is ignored. `projects === []` commits nothing.
+
 ### 5. Config loading (`config.ts`)
 
 Priority: process env vars > `~/.botler-agent/.env` > source `.env` > built-in defaults. In implementation, `parseDotEnv` only fills in when `process.env[key] === undefined`, loading user-level first then source-level, so user-level is never overridden by source-level. `USER_CONFIG_DIR` can only come from the real process env var `BOTLER_CONFIG_DIR` (not from `.env` itself, to avoid a chicken-and-egg situation).
