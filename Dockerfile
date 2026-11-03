@@ -6,10 +6,11 @@
 #   tzdata     TZ-aware scheduler + __TODAY__ date
 #   python3    the `run` tool executes in-project python3 scripts (.py)
 #   ca-certificates  outbound TLS to model providers / channels
+#   openssh-client   git push over SSH (GIT_SSH_COMMAND with a deploy key)
 
 FROM node:20-alpine
 
-RUN apk add --no-cache git tzdata python3 ca-certificates
+RUN apk add --no-cache git tzdata python3 ca-certificates openssh-client
 
 WORKDIR /app
 
