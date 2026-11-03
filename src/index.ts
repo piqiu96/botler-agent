@@ -67,7 +67,9 @@ async function main(): Promise<void> {
 				"Run in CLI mode: npm start -- \"your message\"\n" +
 				"Or copy .env.example to .env and fill in the channel credentials.",
 		);
-		process.exit(1);
+		// A WebUI-only boot is valid: it is how a fresh container gets its WeChat QR paired.
+		// Pairing then starts the monitor live via ensureWechatMonitor(), no restart needed.
+		if (!CONFIG.webuiEnabled) process.exit(1);
 	}
 
 	if (CONFIG.webuiEnabled) {
